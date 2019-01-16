@@ -11,6 +11,7 @@ namespace SistemaVenta.Data.Mapping.Almacen
         {
             builder.ToTable("articulo")
                 .HasKey(c => c.IdArticulo);
+            builder.Property(c => c.PrecioVenta).HasColumnName("precio_venta");
         }
     }
 }
