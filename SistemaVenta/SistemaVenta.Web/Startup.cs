@@ -30,6 +30,12 @@ namespace SistemaVenta.Web
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
             services.AddDbContext<DbContextSistema>(options =>
             options.UseSqlServer(Configuration.GetConnectionString("Conexion")));
+
+            services.AddCors(opt =>
+            {
+                opt.AddPolicy("Todos",
+                    builder => builder.WithOrigins("*").WithHeaders("*").WithMethods("*"));
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -43,7 +49,7 @@ namespace SistemaVenta.Web
             {
                 app.UseHsts();
             }
-
+            app.UseCors("Todos");
             app.UseHttpsRedirection();
             app.UseMvc();
         }

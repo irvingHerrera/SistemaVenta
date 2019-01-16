@@ -1,9 +1,8 @@
-﻿using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
-namespace SietemaVenta.Entity.Almacen
+namespace SistemaVenta.Web.Models.Almacen.Categoria
 {
-    public class Categoria
+    public class ActualizarViewModel
     {
         public int IdCategoria { get; set; }
         [Required]
@@ -12,7 +11,5 @@ namespace SietemaVenta.Entity.Almacen
         [StringLength(256)]
         public string Descripcion { get; set; }
         public bool Condicion { get; set; }
-
-        public ICollection<Articulo> Articulo { get; set; }
     }
 }

@@ -56,21 +56,29 @@ namespace SistemaVenta.Web.Controllers
             });
         }
 
-        // PUT: api/Categorias/5
-        [HttpPut("{id}")]
-        public async Task<IActionResult> PutCategoria([FromRoute] int id, [FromBody] Categoria categoria)
+        // PUT: api/Categorias/Actualizar
+        [HttpPut("[action]")]
+        public async Task<IActionResult> Actualizar([FromBody] ActualizarViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != categoria.IdCategoria)
+            if (model.IdCategoria <= 0)
             {
                 return BadRequest();
             }
 
-            _context.Entry(categoria).State = EntityState.Modified;
+            var categoria = await _context.Categoria.FirstOrDefaultAsync(c => c.IdCategoria == model.IdCategoria);
+
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+
+            categoria.Nombre = model.Nombre;
+            categoria.Descripcion = model.Descripcion;
 
             try
             {
@@ -78,37 +86,44 @@ namespace SistemaVenta.Web.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!CategoriaExists(id))
-                {
-                    return NotFound();
-                }
-                else
-                {
-                    throw;
-                }
+                return BadRequest();
             }
 
-            return NoContent();
+            return Ok();
         }
 
-        // POST: api/Categorias
-        [HttpPost]
-        public async Task<IActionResult> PostCategoria([FromBody] Categoria categoria)
+        // POST: api/Categorias/Crear
+        [HttpPost("[action]")]
+        public async Task<IActionResult> Crear([FromBody] CrearViewModel model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            _context.Categoria.Add(categoria);
-            await _context.SaveChangesAsync();
+            var categoria = new Categoria
+            {
+                Nombre = model.Nombre,
+                Descripcion = model.Descripcion,
+                Condicion = true
+            };
 
-            return CreatedAtAction("GetCategoria", new { id = categoria.IdCategoria }, categoria);
+            _context.Categoria.Add(categoria);
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         // DELETE: api/Categorias/5
-        [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteCategoria([FromRoute] int id)
+        [HttpDelete("[action]/{id}")]
+        public async Task<IActionResult> Eliminar([FromRoute] int id)
         {
             if (!ModelState.IsValid)
             {
@@ -122,9 +137,75 @@ namespace SistemaVenta.Web.Controllers
             }
 
             _context.Categoria.Remove(categoria);
-            await _context.SaveChangesAsync();
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest();
+            }
 
             return Ok(categoria);
+        }
+
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> Desactivar([FromRoute]  int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var categoria = await _context.Categoria.FirstOrDefaultAsync(c => c.IdCategoria == id);
+
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+
+            categoria.Condicion = false;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
+        }
+
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> Activar([FromRoute]  int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var categoria = await _context.Categoria.FirstOrDefaultAsync(c => c.IdCategoria == id);
+
+            if (categoria == null)
+            {
+                return NotFound();
+            }
+
+            categoria.Condicion = true;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
+            }
+
+            return Ok();
         }
 
         private bool CategoriaExists(int id)
