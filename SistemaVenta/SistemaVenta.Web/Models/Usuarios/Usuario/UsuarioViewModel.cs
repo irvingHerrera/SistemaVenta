@@ -28,5 +28,6 @@ namespace SistemaVenta.Web.Models.Usuarios.Usuario
         [Required]
         public string Password { get; set; }
         public bool Condicion { get; set; }
+        public bool ActPassword { get; set; }
     }
 }
