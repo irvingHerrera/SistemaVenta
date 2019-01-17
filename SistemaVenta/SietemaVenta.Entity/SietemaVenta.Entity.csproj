@@ -6,7 +6,6 @@
 
   <ItemGroup>
     <Folder Include="Ventas\" />
-    <Folder Include="Usuarios\" />
   </ItemGroup>
 
   <ItemGroup>

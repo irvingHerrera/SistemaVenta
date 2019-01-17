@@ -36,7 +36,7 @@ namespace SistemaVenta.Web.Controllers
             });
         }
 
-        // GET: api/Categorias/Listar
+        // GET: api/Categorias/Select
         [HttpGet("[action]")]
         public async Task<IEnumerable<CategoriaViewModel>> Select()
         {
