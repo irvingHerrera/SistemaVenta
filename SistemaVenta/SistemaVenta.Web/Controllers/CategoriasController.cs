@@ -36,6 +36,18 @@ namespace SistemaVenta.Web.Controllers
             });
         }
 
+        // GET: api/Categorias/Listar
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<CategoriaViewModel>> Select()
+        {
+            var categoria = await _context.Categoria.Where(c => c.Condicion == true).ToListAsync();
+            return categoria.Select(c => new CategoriaViewModel
+            {
+                IdCategoria = c.IdCategoria,
+                Nombre = c.Nombre
+            });
+        }
+
         // GET: api/Categorias/Mostrar/5
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> Mostrar([FromRoute] int id)
