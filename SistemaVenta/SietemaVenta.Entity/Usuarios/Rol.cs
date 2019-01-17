@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SietemaVenta.Entity.Usuarios
 {
@@ -11,5 +12,7 @@ namespace SietemaVenta.Entity.Usuarios
         [StringLength(256)]
         public string Descripcion { get; set; }
         public bool Condicion { get; set; }
+
+        public ICollection<Usuario> Usuario { get; set; }
     }
 }
