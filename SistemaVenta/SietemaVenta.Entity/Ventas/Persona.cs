@@ -1,12 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace SietemaVenta.Entity.Usuarios
+namespace SietemaVenta.Entity.Ventas
 {
-    public class Usuario
+    public class Persona
     {
-        public int IdUsuario { get; set; }
+        public int IdPersona { get; set; }
         [Required]
-        public int IdRol { get; set; }
+        public string TipoPersona { get; set; }
         [Required]
         [StringLength(100, MinimumLength = 3, ErrorMessage = "El nombre no debe tener más de 100 caracteres, ni menos de 3 caracteres. ")]
         public string Nombre { get; set; }
@@ -14,14 +14,6 @@ namespace SietemaVenta.Entity.Usuarios
         public string NumDocumento { get; set; }
         public string Direccion { get; set; }
         public string Telefono { get; set; }
-        [Required]
         public string Email { get; set; }
-        [Required]
-        public byte[] PasswordHash { get; set; }
-        [Required]
-        public byte[] PasswordSalt { get; set; }
-        public bool Condicion { get; set; }
-
-        public Rol Rol { get; set; }
     }
 }

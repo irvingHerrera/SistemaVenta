@@ -30,10 +30,10 @@ namespace SistemaVenta.Web.Controllers
             return usuario.Select(u => new UsuarioViewModel
             {
                 IdUsuario = u.IdUsuario,
-                IdRol = u.IdUsuario,
+                IdRol = u.IdRol,
                 Rol = u.Rol.Nombre,
                 Nombre = u.Nombre,
-                tipoDocumento = u.tipoDocumento,
+                tipoDocumento = u.TipoDocumento,
                 NumDocumento = u.NumDocumento,
                 Direccion = u.Direccion,
                 Telefono = u.Telefono,
@@ -65,7 +65,7 @@ namespace SistemaVenta.Web.Controllers
             {
                 IdRol = model.IdRol,
                 Nombre = model.Nombre,
-                tipoDocumento = model.tipoDocumento,
+                TipoDocumento = model.tipoDocumento,
                 NumDocumento = model.NumDocumento,
                 Direccion = model.Direccion,
                 Telefono = model.Telefono,
@@ -113,7 +113,7 @@ namespace SistemaVenta.Web.Controllers
 
             usuario.IdRol = model.IdRol;
             usuario.Nombre = model.Nombre;
-            usuario.tipoDocumento = model.tipoDocumento;
+            usuario.TipoDocumento = model.tipoDocumento;
             usuario.NumDocumento = model.NumDocumento;
             usuario.Telefono = model.Telefono;
             usuario.Direccion = model.Direccion;

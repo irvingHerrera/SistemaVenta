@@ -13,7 +13,7 @@ namespace SistemaVenta.Data.Mapping.Usuario
         {
             builder.ToTable("usuario")
                 .HasKey(u => u.IdUsuario);
-            builder.Property(u => u.tipoDocumento).HasColumnName("tipo_documento");
+            builder.Property(u => u.TipoDocumento).HasColumnName("tipo_documento");
             builder.Property(u => u.NumDocumento).HasColumnName("num_documento");
             builder.Property(u => u.PasswordHash).HasColumnName("password_hash");
             builder.Property(u => u.PasswordSalt).HasColumnName("password_salt");
