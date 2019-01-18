@@ -11,6 +11,7 @@ namespace SistemaVenta.Data.Mapping.Ventas
         {
             builder.ToTable("persona")
                 .HasKey(u => u.IdPersona);
+            builder.Property(u => u.TipoPersona).HasColumnName("tipo_persona");
             builder.Property(u => u.TipoDocumento).HasColumnName("tipo_documento");
             builder.Property(u => u.NumDocumento).HasColumnName("num_documento");
         }

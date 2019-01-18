@@ -71,11 +71,6 @@ namespace SistemaVenta.Web.Controllers
 
             var email = model.Email.ToLower();
 
-            if (await _context.Persona.AnyAsync(p => p.Email.Equals(email)))
-            {
-                return BadRequest("El email ya existe");
-            }
-
             var persona = new Persona
             {
                 TipoPersona = model.TipoPersona,
