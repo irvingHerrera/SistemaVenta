@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +12,7 @@ using SistemaVenta.Web.Models.Almacen.Categoria;
 
 namespace SistemaVenta.Web.Controllers
 {
+    [Authorize(Roles ="Almacenero,Administrador")]
     [Route("api/[controller]")]
     [ApiController]
     public class CategoriasController : ControllerBase

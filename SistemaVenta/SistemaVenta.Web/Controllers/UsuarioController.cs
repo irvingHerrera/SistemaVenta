@@ -5,6 +5,7 @@ using System.Linq;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -30,6 +31,7 @@ namespace SistemaVenta.Web.Controllers
         }
 
         // GET: api/Usuario/Listar
+        [Authorize(Roles = "Administrador")]
         [HttpGet("[action]")]
         public async Task<IEnumerable<UsuarioViewModel>> Listar()
         {
@@ -51,6 +53,7 @@ namespace SistemaVenta.Web.Controllers
         }
 
         // POST: api/Usuario/Crear
+        [Authorize(Roles = "Administrador")]
         [HttpPost("[action]")]
         public async Task<IActionResult> Crear([FromBody] UsuarioViewModel model)
         {
@@ -97,6 +100,7 @@ namespace SistemaVenta.Web.Controllers
         }
 
         // PUT: api/Articulo/Actualizar
+        [Authorize(Roles = "Administrador")]
         [HttpPut("[action]")]
         public async Task<IActionResult> Actualizar([FromBody] UsuarioViewModel model)
         {
@@ -147,6 +151,7 @@ namespace SistemaVenta.Web.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPut("[action]/{id}")]
         public async Task<IActionResult> Desactivar([FromRoute]  int id)
         {
@@ -176,6 +181,7 @@ namespace SistemaVenta.Web.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Administrador")]
         [HttpPut("[action]/{id}")]
         public async Task<IActionResult> Activar([FromRoute]  int id)
         {

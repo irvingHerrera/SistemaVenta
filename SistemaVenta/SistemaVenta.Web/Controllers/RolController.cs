@@ -1,16 +1,15 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using SistemaVenta.Data;
+using SistemaVenta.Web.Models.Usuarios.Rol;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using SietemaVenta.Entity.Usuarios;
-using SistemaVenta.Data;
-using SistemaVenta.Web.Models.Usuarios.Rol;
 
 namespace SistemaVenta.Web.Controllers
 {
+    [Authorize(Roles = "Administrador")]
     [Route("api/[controller]")]
     [ApiController]
     public class RolController : ControllerBase

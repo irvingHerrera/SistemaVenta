@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,7 @@ namespace SistemaVenta.Web.Controllers
             _context = context;
         }
 
+        [Authorize(Roles = "Almacenero,Administrador")]
         // GET: api/Articulo/Listar
         [HttpGet("[action]")]
         public async Task<IEnumerable<ArticuloViewModel>> Listar()
@@ -42,6 +44,7 @@ namespace SistemaVenta.Web.Controllers
         }
 
         // GET: api/Articulo/Mostrar/5
+        [Authorize(Roles = "Almacenero,Administrador")]
         [HttpGet("[action]/{id}")]
         public async Task<IActionResult> Mostrar([FromRoute] int id)
         {
@@ -67,6 +70,7 @@ namespace SistemaVenta.Web.Controllers
         }
 
         // PUT: api/Articulo/Actualizar
+        [Authorize(Roles = "Almacenero,Administrador")]
         [HttpPut("[action]")]
         public async Task<IActionResult> Actualizar([FromBody] ArticuloViewModel model)
         {
@@ -108,6 +112,7 @@ namespace SistemaVenta.Web.Controllers
         }
 
         // POST: api/Articulo/Crear
+        [Authorize(Roles = "Almacenero,Administrador")]
         [HttpPost("[action]")]
         public async Task<IActionResult> Crear([FromBody] ArticuloViewModel model)
         {
@@ -170,6 +175,7 @@ namespace SistemaVenta.Web.Controllers
             return Ok(articulo);
         }
 
+        [Authorize(Roles = "Almacenero,Administrador")]
         [HttpPut("[action]/{id}")]
         public async Task<IActionResult> Desactivar([FromRoute]  int id)
         {
@@ -199,6 +205,7 @@ namespace SistemaVenta.Web.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Almacenero,Administrador")]
         [HttpPut("[action]/{id}")]
         public async Task<IActionResult> Activar([FromRoute]  int id)
         {
