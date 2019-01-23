@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SietemaVenta.Entity.Almacen;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SietemaVenta.Entity.Usuarios
 {
@@ -23,5 +25,7 @@ namespace SietemaVenta.Entity.Usuarios
         public bool Condicion { get; set; }
 
         public Rol Rol { get; set; }
+
+        public ICollection<Ingreso> Ingreso { get; set; }
     }
 }

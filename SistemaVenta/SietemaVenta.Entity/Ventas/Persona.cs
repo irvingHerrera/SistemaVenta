@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using SietemaVenta.Entity.Almacen;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SietemaVenta.Entity.Ventas
 {
@@ -15,5 +17,7 @@ namespace SietemaVenta.Entity.Ventas
         public string Direccion { get; set; }
         public string Telefono { get; set; }
         public string Email { get; set; }
+
+        public ICollection<Ingreso> Ingreso { get; set; }
     }
 }
