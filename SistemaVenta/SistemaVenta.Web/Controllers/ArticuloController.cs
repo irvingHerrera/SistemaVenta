@@ -69,6 +69,43 @@ namespace SistemaVenta.Web.Controllers
             });
         }
 
+        // GET: api/Articulo/BuscarCodigoIngreso/51234123
+        [Authorize(Roles = "Almacenero,Administrador")]
+        [HttpGet("[action]/{codigo}")]
+        public async Task<IActionResult> BuscarCodigoIngreso([FromRoute] string codigo)
+        {
+            try
+            {
+                var articulo = await _context.Articulo.Include(a => a.Categoria)
+                                .Where(a => a.Condicion == true)
+                                .SingleOrDefaultAsync(a => a.Codigo == codigo);
+
+                if (articulo == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(new ArticuloViewModel
+                {
+                    IdArticulo = articulo.IdArticulo,
+                    IdCategoria = articulo.IdCategoria,
+                    Nombre = articulo.Nombre,
+                    Descripcion = articulo.Descripcion,
+                    Condicion = articulo.Condicion,
+                    Categoria = articulo.Categoria.Nombre,
+                    Codigo = articulo.Codigo,
+                    PrecioVenta = articulo.PrecioVenta,
+                    Stock = articulo.Stock
+                });
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+            
+        }
+
         // PUT: api/Articulo/Actualizar
         [Authorize(Roles = "Almacenero,Administrador")]
         [HttpPut("[action]")]
