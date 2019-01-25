@@ -23,12 +23,35 @@ namespace SistemaVenta.Web.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Almacenero,Administrador")]
         // GET: api/Articulo/Listar
+        [Authorize(Roles = "Almacenero,Administrador")]
         [HttpGet("[action]")]
         public async Task<IEnumerable<ArticuloViewModel>> Listar()
         {
             var articulo = await _context.Articulo.Include(a => a.Categoria).ToListAsync();
+            return articulo.Select(a => new ArticuloViewModel
+            {
+                IdArticulo = a.IdArticulo,
+                IdCategoria = a.IdCategoria,
+                Nombre = a.Nombre,
+                Condicion = a.Condicion,
+                Descripcion = a.Descripcion,
+                Categoria = a.Categoria.Nombre,
+                Codigo = a.Codigo,
+                PrecioVenta = a.PrecioVenta,
+                Stock = a.Stock
+            });
+        }
+
+        // GET: api/Articulo/ListarIngreso/texto
+        [Authorize(Roles = "Almacenero,Administrador")]
+        [HttpGet("[action]/{texto}")]
+        public async Task<IEnumerable<ArticuloViewModel>> ListarIngreso([FromRoute] string texto)
+        {
+            var articulo = await _context.Articulo.Include(a => a.Categoria)
+                                .Where(a => a.Nombre.Contains(texto) && a.Condicion == true)
+                                .ToListAsync();
+
             return articulo.Select(a => new ArticuloViewModel
             {
                 IdArticulo = a.IdArticulo,

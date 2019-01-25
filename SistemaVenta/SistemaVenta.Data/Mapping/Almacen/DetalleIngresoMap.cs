@@ -10,6 +10,7 @@ namespace SistemaVenta.Data.Mapping.Almacen
         {
             builder.ToTable("detalle_ingreso")
                 .HasKey(d => d.IdDetalleIngreso);
+            builder.Property(d => d.IdDetalleIngreso).HasColumnName("iddetalle_ingreso");
 
         }
     }
