@@ -19,5 +19,6 @@ namespace SietemaVenta.Entity.Ventas
         public string Email { get; set; }
 
         public ICollection<Ingreso> Ingreso { get; set; }
+        public ICollection<Venta> Venta { get; set; }
     }
 }

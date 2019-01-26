@@ -1,4 +1,5 @@
 ﻿using SietemaVenta.Entity.Almacen;
+using SietemaVenta.Entity.Ventas;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,5 +28,6 @@ namespace SietemaVenta.Entity.Usuarios
         public Rol Rol { get; set; }
 
         public ICollection<Ingreso> Ingreso { get; set; }
+        public ICollection<Venta> Venta { get; set; }
     }
 }

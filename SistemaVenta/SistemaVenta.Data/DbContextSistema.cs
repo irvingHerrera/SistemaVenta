@@ -17,6 +17,8 @@ namespace SistemaVenta.Data
         public DbSet<Persona> Persona { get; set; }
         public DbSet<Ingreso> Ingreso { get; set; }
         public DbSet<DetalleIngreso> DetalleIngreso { get; set; }
+        public DbSet<Venta> Venta { get; set; }
+        public DbSet<DetalleVenta> DetalleVenta { get; set; }
 
         public DbContextSistema(DbContextOptions<DbContextSistema> options) : base(options)
         {
@@ -33,6 +35,8 @@ namespace SistemaVenta.Data
             modelBuilder.ApplyConfiguration(new PersonaMap());
             modelBuilder.ApplyConfiguration(new IngresoMap());
             modelBuilder.ApplyConfiguration(new DetalleIngresoMap());
+            modelBuilder.ApplyConfiguration(new VentaMap());
+            modelBuilder.ApplyConfiguration(new DetalleVentaMap());
         }
     }
 }
