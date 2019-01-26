@@ -51,6 +51,37 @@ namespace SistemaVenta.Web.Controllers
             });
         }
 
+        // GET: api/Ingreso/Listar
+        [Authorize(Roles = "Almacenero,Administrador")]
+        [HttpGet("[action]/{texto}")]
+        public async Task<IEnumerable<IngresoViewModel>> ListarFiltro([FromRoute] string texto)
+        {
+
+            var ingreso = await _context.Ingreso
+                                .Include(i => i.Persona)
+                                .Include(i => i.Usuario)
+                                .Where(i => i.NumComprobante.Contains(texto))
+                                .OrderByDescending(i => i.IdIngreso)
+                                .ToListAsync();
+
+            return ingreso.Select(i => new IngresoViewModel
+            {
+                IdIngreso = i.IdIngreso,
+                IdProveedor = i.IdProveedor,
+                IdUsuario = i.IdUsuario,
+                Proveedor = i.Persona.Nombre,
+                Usuario = i.Usuario.Nombre,
+                TipoComprobante = i.TipoComprobante,
+                SerieComprobante = i.SerieComprobante,
+                NumComprobante = i.NumComprobante,
+                Impuesto = i.Impuesto,
+                Total = i.Total,
+                FechaHora = i.FechaHora,
+                Estado = i.Estado
+            });
+        }
+
+
         // GET: api/Ingreso/ListarDetalles
         [Authorize(Roles = "Almacenero,Administrador")]
         [HttpGet("[action]/{idIngreso}")]
