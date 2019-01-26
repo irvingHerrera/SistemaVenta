@@ -15,5 +15,6 @@ namespace SietemaVenta.Entity.Almacen
         public decimal Precio { get; set; }
 
         public Ingreso Ingreso { get; set; }
+        public Articulo Articulo { get; set; }
     }
 }

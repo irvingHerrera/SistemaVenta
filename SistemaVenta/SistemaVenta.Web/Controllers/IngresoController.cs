@@ -23,8 +23,8 @@ namespace SistemaVenta.Web.Controllers
             _context = context;
         }
 
-        [Authorize(Roles = "Almacenero,Administrador")]
         // GET: api/Ingreso/Listar
+        [Authorize(Roles = "Almacenero,Administrador")]
         [HttpGet("[action]")]
         public async Task<IEnumerable<IngresoViewModel>> Listar()
         {
@@ -48,6 +48,26 @@ namespace SistemaVenta.Web.Controllers
                 Total = i.Total,
                 FechaHora = i.FechaHora,
                 Estado = i.Estado
+            });
+        }
+
+        // GET: api/Ingreso/ListarDetalles
+        [Authorize(Roles = "Almacenero,Administrador")]
+        [HttpGet("[action]/{idIngreso}")]
+        public async Task<IEnumerable<DetalleViewModel>> ListarDetalles([FromRoute] int idIngreso)
+        {
+            var detalle = await _context.DetalleIngreso
+                                .Include(a => a.Articulo)
+                                .Where(d => d.IdIngreso == idIngreso)
+                                .ToListAsync();
+
+            return detalle.Select(i => new DetalleViewModel
+            {
+                IdArticulo = i.IdArticulo,
+                Articulo = i.Articulo.Nombre,
+                Cantidad = i.Cantidad,
+                Precio = i.Precio
+
             });
         }
 
@@ -104,6 +124,36 @@ namespace SistemaVenta.Web.Controllers
             catch (Exception ex)
             {
                 return BadRequest(ex.Message);
+            }
+
+            return Ok();
+        }
+
+        [Authorize(Roles = "Almacenero,Administrador")]
+        [HttpPut("[action]/{id}")]
+        public async Task<IActionResult> Anular([FromRoute]  int id)
+        {
+            if (id <= 0)
+            {
+                return BadRequest();
+            }
+
+            var ingreso = await _context.Ingreso.FirstOrDefaultAsync(c => c.IdIngreso == id);
+
+            if (ingreso == null)
+            {
+                return NotFound();
+            }
+
+            ingreso.Estado = "Anulado";
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                return BadRequest();
             }
 
             return Ok();
