@@ -68,8 +68,21 @@ namespace SistemaVenta.Web.Controllers
         [HttpGet("[action]")]
         public async Task<IEnumerable<SelectViewModel>> SelectProveedor()
         {
-            var persoba = await _context.Persona.Where(p => p.TipoPersona.Equals("proveedor")).ToListAsync();
-            return persoba.Select(p => new SelectViewModel
+            var persona = await _context.Persona.Where(p => p.TipoPersona.Equals("proveedor")).ToListAsync();
+            return persona.Select(p => new SelectViewModel
+            {
+                IdPersona = p.IdPersona,
+                Nombre = p.Nombre
+            });
+        }
+
+        // GET: api/Persona/SelectCliente
+        [Authorize(Roles = "Almacenero,Administrador")]
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<SelectViewModel>> SelectCliente()
+        {
+            var persona = await _context.Persona.Where(p => p.TipoPersona.Equals("cliente")).ToListAsync();
+            return persona.Select(p => new SelectViewModel
             {
                 IdPersona = p.IdPersona,
                 Nombre = p.Nombre
