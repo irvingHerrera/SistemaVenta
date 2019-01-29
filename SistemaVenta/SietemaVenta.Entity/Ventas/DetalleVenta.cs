@@ -18,6 +18,6 @@ namespace SietemaVenta.Entity.Ventas
         public decimal Descuento { get; set; }
 
         public Venta Venta { get; set; }
-        public Articulo Articlulo { get; set; }
+        public Articulo Articulo { get; set; }
     }
 }
