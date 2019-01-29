@@ -66,6 +66,30 @@ namespace SistemaVenta.Web.Controllers
             });
         }
 
+        // GET: api/Articulo/ListarIngreso/texto
+        [Authorize(Roles = "Vendedor,Administrador")]
+        [HttpGet("[action]/{texto}")]
+        public async Task<IEnumerable<ArticuloViewModel>> ListarVenta([FromRoute] string texto)
+        {
+            var articulo = await _context.Articulo.Include(a => a.Categoria)
+                                .Where(a => a.Nombre.Contains(texto) && a.Condicion == true)
+                                .Where(a => a.Stock > 0)
+                                .ToListAsync();
+
+            return articulo.Select(a => new ArticuloViewModel
+            {
+                IdArticulo = a.IdArticulo,
+                IdCategoria = a.IdCategoria,
+                Nombre = a.Nombre,
+                Condicion = a.Condicion,
+                Descripcion = a.Descripcion,
+                Categoria = a.Categoria.Nombre,
+                Codigo = a.Codigo,
+                PrecioVenta = a.PrecioVenta,
+                Stock = a.Stock
+            });
+        }
+
         // GET: api/Articulo/Mostrar/5
         [Authorize(Roles = "Almacenero,Administrador")]
         [HttpGet("[action]/{id}")]
@@ -127,6 +151,44 @@ namespace SistemaVenta.Web.Controllers
                 throw;
             }
             
+        }
+
+        // GET: api/Articulo/BuscarCodigoVenta/51234123
+        [Authorize(Roles = "Vendedor,Administrador")]
+        [HttpGet("[action]/{codigo}")]
+        public async Task<IActionResult> BuscarCodigoVenta([FromRoute] string codigo)
+        {
+            try
+            {
+                var articulo = await _context.Articulo.Include(a => a.Categoria)
+                                .Where(a => a.Condicion == true)
+                                .Where(a => a.Stock > 0)
+                                .SingleOrDefaultAsync(a => a.Codigo == codigo);
+
+                if (articulo == null)
+                {
+                    return NotFound();
+                }
+
+                return Ok(new ArticuloViewModel
+                {
+                    IdArticulo = articulo.IdArticulo,
+                    IdCategoria = articulo.IdCategoria,
+                    Nombre = articulo.Nombre,
+                    Descripcion = articulo.Descripcion,
+                    Condicion = articulo.Condicion,
+                    Categoria = articulo.Categoria.Nombre,
+                    Codigo = articulo.Codigo,
+                    PrecioVenta = articulo.PrecioVenta,
+                    Stock = articulo.Stock
+                });
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
         // PUT: api/Articulo/Actualizar
