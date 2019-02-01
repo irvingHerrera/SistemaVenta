@@ -88,7 +88,7 @@ namespace SistemaVenta.Web.Controllers
         public async Task<IEnumerable<DetalleViewModel>> ListarDetalles([FromRoute] int idVenta)
         {
             var detalle = await _context.DetalleVenta
-                                .Include(v => v.Venta)
+                                .Include(v => v.Articulo)
                                 .Where(d => d.IdVenta == idVenta)
                                 .ToListAsync();
 

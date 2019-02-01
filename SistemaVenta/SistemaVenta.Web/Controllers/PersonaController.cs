@@ -77,7 +77,7 @@ namespace SistemaVenta.Web.Controllers
         }
 
         // GET: api/Persona/SelectCliente
-        [Authorize(Roles = "Almacenero,Administrador")]
+        [Authorize(Roles = "Vendedor,Administrador")]
         [HttpGet("[action]")]
         public async Task<IEnumerable<SelectViewModel>> SelectCliente()
         {
