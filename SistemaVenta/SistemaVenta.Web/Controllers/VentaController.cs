@@ -40,6 +40,10 @@ namespace SistemaVenta.Web.Controllers
                 IdCliente = v.IdCliente,
                 IdUsuario = v.IdUsuario,
                 Cliente = v.Persona.Nombre,
+                NumeroDocumento = v.Persona.NumDocumento,
+                Direccion = v.Persona.Direccion,
+                Telefono = v.Persona.Telefono,
+                Email = v.Persona.Email,
                 Usuario = v.Usuario.Nombre,
                 TipoComprobante = v.TipoComprobante,
                 SerieComprobante = v.SerieComprobante,
@@ -48,6 +52,25 @@ namespace SistemaVenta.Web.Controllers
                 Total = v.Total,
                 FechaHora = v.FechaHora,
                 Estado = v.Estado
+            });
+        }
+
+        // GET: api/Venta/VentaMes12
+        [Authorize(Roles = "Almacenero,Vendedor,Administrador")]
+        [HttpGet("[action]")]
+        public async Task<IEnumerable<ConsultaViewModel>> VentaMes12()
+        {
+            var consulta = await _context.Venta
+                                .GroupBy(v => v.FechaHora.Month)
+                                .Select(x => new { etiqueta = x.Key, valor = x.Sum(v => v.Total)})
+                                .OrderByDescending(v => v.etiqueta)
+                                .Take(12)
+                                .ToListAsync();
+
+            return consulta.Select(v => new ConsultaViewModel
+            {
+                Etiqueta = v.etiqueta.ToString(),
+                Valor = v.valor
             });
         }
 
@@ -70,6 +93,10 @@ namespace SistemaVenta.Web.Controllers
                 IdCliente = v.IdCliente,
                 IdUsuario = v.IdUsuario,
                 Cliente = v.Persona.Nombre,
+                NumeroDocumento = v.Persona.NumDocumento,
+                Direccion = v.Persona.Direccion,
+                Telefono = v.Persona.Telefono,
+                Email = v.Persona.Email,
                 Usuario = v.Usuario.Nombre,
                 TipoComprobante = v.TipoComprobante,
                 SerieComprobante = v.SerieComprobante,
@@ -81,6 +108,40 @@ namespace SistemaVenta.Web.Controllers
             });
         }
 
+        // GET: api/Venta/ConsultaFecha/fechaInicio/fechaFin
+        [Authorize(Roles = "Vendedor,Administrador")]
+        [HttpGet("[action]/{fechaInicio}/{fechaFin}")]
+        public async Task<IEnumerable<VentaViewModel>> ConsultaFecha([FromRoute] DateTime fechaInicio, DateTime fechaFin)
+        {
+            var venta = await _context.Venta
+                                .Include(v => v.Usuario)
+                                .Include(v => v.Persona)
+                                .Where(i => i.FechaHora >= fechaInicio)
+                                .Where(i => i.FechaHora <= fechaFin)
+                                .OrderByDescending(v => v.IdVenta)
+                                .Take(100)
+                                .ToListAsync();
+
+            return venta.Select(v => new VentaViewModel
+            {
+                IdVenta = v.IdVenta,
+                IdCliente = v.IdCliente,
+                IdUsuario = v.IdUsuario,
+                Cliente = v.Persona.Nombre,
+                NumeroDocumento = v.Persona.NumDocumento,
+                Direccion = v.Persona.Direccion,
+                Telefono = v.Persona.Telefono,
+                Email = v.Persona.Email,
+                Usuario = v.Usuario.Nombre,
+                TipoComprobante = v.TipoComprobante,
+                SerieComprobante = v.SerieComprobante,
+                NumComprobante = v.NumComprobante,
+                Impuesto = v.Impuesto,
+                Total = v.Total,
+                FechaHora = v.FechaHora,
+                Estado = v.Estado
+            });
+        }
 
         // GET: api/Venta/ListarDetalles
         [Authorize(Roles = "Vendedor,Administrador")]

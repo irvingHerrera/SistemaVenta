@@ -7,6 +7,10 @@ namespace SistemaVenta.Web.Models.Ventas.Venta
         public int IdVenta { get; set; }
         public int IdCliente { get; set; }
         public string Cliente { get; set; }
+        public string NumeroDocumento { get; set; }
+        public string Direccion { get; set; }
+        public string Telefono { get; set; }
+        public string Email { get; set; }
         public int IdUsuario { get; set; }
         public string Usuario { get; set; }
         public string TipoComprobante { get; set; }
